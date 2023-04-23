@@ -91,13 +91,13 @@ def 解析PDF(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbot,
         # 多线，翻译
         gpt_response_collection = yield from request_gpt_model_multi_threads_with_very_awesome_ui_and_high_efficiency(
             inputs_array=[
-                f"你需要翻译以下内容：\n{frag}" for frag in paper_fragments],
+                f"你需要翻译将以下内容翻译成中文：\n{frag}" for frag in paper_fragments],
             inputs_show_user_array=[f"\n---\n 原文： \n\n {frag.replace('#', '')}  \n---\n 翻译：\n " for frag in paper_fragments],
             llm_kwargs=llm_kwargs,
             chatbot=chatbot,
             history_array=[[paper_meta] for _ in paper_fragments],
             sys_prompt_array=[
-                "请你作为一个学术翻译，负责把学术论文准确翻译成中文。注意文章中的每一句话都要翻译。" for _ in paper_fragments],
+                "请你作为一个专业的国际商业翻译，把正文的每一个段落都准确且完整的翻译成中文。注意文章中的每一句话都要翻译，包括序号。" for _ in paper_fragments],
             # max_workers=5  # OpenAI所允许的最大并行过载
         )
 
@@ -107,7 +107,7 @@ def 解析PDF(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbot,
                 gpt_response_collection[i] = f"\n\n---\n\n ## 原文[{i//2}/{len(gpt_response_collection)//2}]： \n\n {paper_fragments[i//2].replace('#', '')}  \n\n---\n\n ## 翻译[{i//2}/{len(gpt_response_collection)//2}]：\n "
             else:
                 gpt_response_collection[i] = gpt_response_collection[i]
-        final = ["一、论文概况\n\n---\n\n", paper_meta_info.replace('# ', '### ') + '\n\n---\n\n', "二、论文翻译", ""]
+        final = ["一、论文概况\n\n---\n\n", paper_meta_info.replace('# ', '### ') + '\n\n---\n\n', "二、以下为翻译", ""]
         final.extend(gpt_response_collection)
         create_report_file_name = f"{os.path.basename(fp)}.trans.md"
         res = write_results_to_file(final, file_name=create_report_file_name)

@@ -55,9 +55,25 @@ def get_core_functions():
             "Suffix": "",
             "Color": "secondary",
         },
-        "英译中": {
+        "翻译成中文": {
             "Prefix":   r"翻译成地道的中文：" + "\n\n",
             "Suffix":   r"",
+        },
+        "中译韩": {
+            "Prefix": r"Please translate following sentence to Korean:" + "\n\n",
+            "Suffix": r"",
+        },
+        "中韩互译": {
+            "Prefix": r"I want you to act as a scientific Korean-Chinese translator, " +
+                      r"I will provide you with some paragraphs in one language " +
+                      r"and your task is to accurately and academically translate the paragraphs only into the other language. " +
+                      r"Do not repeat the original provided paragraphs after translation. " +
+                      r"You should use artificial intelligence tools, " +
+                      r"such as natural language processing, and rhetorical knowledge " +
+                      r"and experience about effective writing techniques to reply. " +
+                      r"I'll give you my paragraphs as follows, tell me what language it is written in, and then translate:" + "\n\n",
+            "Suffix": "",
+            "Color": "secondary",
         },
         "找图片": {
             "Prefix":   r"我需要你找一张网络图片。使用Unsplash API(https://source.unsplash.com/960x640/?<英语关键词>)获取图片URL，" +
