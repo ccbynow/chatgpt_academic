@@ -80,13 +80,13 @@ def 解析PDF(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbot,
         paper_meta = page_one_fragments[0].split('introduction')[0].split('Introduction')[0].split('INTRODUCTION')[0]
         
         # 单线，获取文章meta信息
-        paper_meta_info = yield from request_gpt_model_in_new_thread_with_ui_alive(
-            inputs=f"以下是一篇学术论文的基础信息，请从中提取出“标题”、“收录会议或期刊”、“作者”、“摘要”、“编号”、“作者邮箱”这六个部分。请用markdown格式输出，最后用中文翻译摘要部分。请提取：{paper_meta}",
-            inputs_show_user=f"请从{fp}中提取出“标题”、“收录会议或期刊”等基本信息。",
-            llm_kwargs=llm_kwargs,
-            chatbot=chatbot, history=[],
-            sys_prompt="Your job is to collect information from materials。",
-        )
+        # paper_meta_info = yield from request_gpt_model_in_new_thread_with_ui_alive(
+        #     inputs=f"以下是一篇学术论文的基础信息，请从中提取出“标题”、“收录会议或期刊”、“作者”、“摘要”、“编号”、“作者邮箱”这六个部分。请用markdown格式输出，最后用中文翻译摘要部分。请提取：{paper_meta}",
+        #     inputs_show_user=f"请从{fp}中提取出“标题”、“收录会议或期刊”等基本信息。",
+        #     llm_kwargs=llm_kwargs,
+        #     chatbot=chatbot, history=[],
+        #     sys_prompt="Your job is to collect information from materials。",
+        # )
 
         # 多线，翻译
         gpt_response_collection = yield from request_gpt_model_multi_threads_with_very_awesome_ui_and_high_efficiency(
@@ -107,7 +107,7 @@ def 解析PDF(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbot,
                 gpt_response_collection[i] = f"\n\n---\n\n ## 原文[{i//2}/{len(gpt_response_collection)//2}]： \n\n {paper_fragments[i//2].replace('#', '')}  \n\n---\n\n ## 翻译[{i//2}/{len(gpt_response_collection)//2}]：\n "
             else:
                 gpt_response_collection[i] = gpt_response_collection[i]
-        final = ["一、论文概况\n\n---\n\n", paper_meta_info.replace('# ', '### ') + '\n\n---\n\n', "二、以下为翻译", ""]
+        final = ["一、以下为翻译", ""]
         final.extend(gpt_response_collection)
         create_report_file_name = f"{os.path.basename(fp)}.trans.md"
         res = write_results_to_file(final, file_name=create_report_file_name)
