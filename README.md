@@ -99,7 +99,7 @@ cd chatgpt_academic
 
 3. 安装依赖
 ```sh
-# （选择I: 如熟悉python）推荐
+# （选择I: 如熟悉python）（python版本3.9以上，越新越好）
 python -m pip install -r requirements.txt
 # 备注：使用官方pip源或者阿里pip源，其他pip源（如一些大学的pip）有可能出问题，临时换源方法：python -m pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
 
@@ -196,6 +196,7 @@ docker run --rm -it --net=host --gpus=all gpt-academic bash
 
 
 ## 版本:
+- version 3.5(Todo): 使用自然语言调用本项目的所有函数插件（高优先级）
 - version 3.4(Todo): 完善chatglm本地大模型的多线支持
 - version 3.3: +互联网信息综合功能
 - version 3.2: 函数插件支持更多参数接口 (保存对话功能, 解读任意语言代码+同时询问任意的LLM组合)
