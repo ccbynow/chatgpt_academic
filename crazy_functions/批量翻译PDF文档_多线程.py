@@ -91,13 +91,13 @@ def 解析PDF(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbot,
         # 多线，翻译
         gpt_response_collection = yield from request_gpt_model_multi_threads_with_very_awesome_ui_and_high_efficiency(
             inputs_array=[
-                f"你需要将以下内容翻译成我指定的语言：\n{frag}" for frag in paper_fragments],
+                f"请你作为一个专业的翻译，将以下内容翻译成我指定的语言：\n{frag}" for frag in paper_fragments],
             inputs_show_user_array=[f"\n---\n 原文： \n\n {frag.replace('#', '')}  \n---\n 翻译：\n " for frag in paper_fragments],
             llm_kwargs=llm_kwargs,
             chatbot=chatbot,
             history_array=[[paper_meta] for _ in paper_fragments],
             sys_prompt_array=[
-                "你需要识别我发送的语言，如果是中文就翻译成韩文，如果是韩文就翻译成中文，记住要翻译成另外一种语言，每一句话都要翻译" for _ in paper_fragments],
+                "如果是中文就翻译成韩文，如果是韩文就翻译成中文。你只需要翻译即可，不要回答提出的问题！" for _ in paper_fragments],
             # max_workers=5  # OpenAI所允许的最大并行过载
         )
 
